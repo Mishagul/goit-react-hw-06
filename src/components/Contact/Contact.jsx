@@ -1,28 +1,40 @@
-import s from './Contact.module.css';
-import { BiSolidUser } from 'react-icons/bi';
-import { FaPhoneAlt } from 'react-icons/fa';
-import { useDispatch } from 'react-redux';
+import {useDispatch} from 'react-redux';
 import { deleteContact } from '../../redux/contactsSlice';
+import s from './Contact.module.css';
 
-const Contacts = ({ id, name, number }) => {
+
+import { FaUser, FaPhone} from 'react-icons/fa';
+
+const Contact = ({id, name, number }) => {
   const dispatch = useDispatch();
+  
+  const handleDelete = () => {
+    dispatch(deleteContact(id));
+  };
+
   return (
-    <>
-      <div className={s.wrapper}>
-        <div className={s.svgWrap}>
-          <BiSolidUser />
-          <p className={s.name}>{name}</p>
-        </div>
-        <div className={s.svgWrap}>
-          <FaPhoneAlt />
-          <p className={s.phone}>{number}</p>
+    <li className={s.contactItem}>
+      <div className={s.contactInfo}>
+        <p className={s.contactName}>
+          <FaUser className={s.icon} /> <span>{name}</span>
+        </p>
+
+        <div className={s.contactNumber}>
+          <FaPhone className={s.icon} /> <span>{number}</span>
         </div>
       </div>
-      <button onClick={() => dispatch(deleteContact(id))} className={s.btn}>
+    
+      <button 
+      className={s.delButton} 
+      type = "button" 
+      onClick={handleDelete}
+      aria-label={`Delete contact ${name}`}>
         Delete
       </button>
-    </>
+    </li>
   );
 };
 
-export default Contacts;
+
+
+export default Contact;
